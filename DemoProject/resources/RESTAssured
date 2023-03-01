@@ -1,0 +1,160 @@
+Google LookAlike API:
+1) RestAssured Basics - Basics.java
+	a) RestAssured.baseURI = "Enter the endpoint here"
+		given - All Input details (query/path param, header, body)
+		when - Submit the API - Resource and HTTP Method
+		then - Validate the response (assertThat, statusCode, body (equalTo -> Hamcrest jar))
+		log all - To see all the details to be logged
+	
+2) End to End Testing - End to End.java
+	- to get response as string - extract().response.asString();
+	- to convert string to json
+		Jsonpath js = new Jsonpath("Enter String here");
+		js.getString("Key");
+		
+Nested Json.docx:
+3) Complex Json Parse - ComplexJsonParse.java, SumValidation.java
+	- to get multiple courses - js.getInt("Courses.size()");
+	- for nested json - parentNode.chilNode (ex: js.getInt("dashboard.purchaseAmount");)
+
+Library API:
+4) Sending parameters from Test and TestNg Parameterization - DynamicJson.java, Payload.java
+	- pass it as a sting instead of hard cording the value (Payload.java)
+	- pass multiple set of datas using Dataproviders TestNg
+	
+5) Handling static json - RetreiveFromJsonFile.java
+	- FileBytes new String(File.readAllBytes(paths.get("file path")))
+	
+JIRA Test:
+6)JiraTest.java
+	- Passing path parameter - given.pathParam("key","Value").when.post("\\resourcepath\{key}")
+	- Cookie authentication 
+		SessionFilter session = new SessionFilter();
+		given.filter(session) -> to pass the session variable to the subsequent classes
+	- add an attachment through Rest api
+		given.multiPart("file", new File("file name"))
+	- Handling https certification
+		given().relaxedHTTPSValidation()
+		
+OAuth 2.0: 
+7) OAuth 2.0 comes with multiple Grant types
+- Authorization code and Client credentials are the most commonly used grant types for OAuth
+	Authorization code Grant type - Sign In BookMyShow with Google account
+		- explore and Oauth collection
+		- Refer OAuth 2.0.xls and OAuth 2.0 Contract.docs
+		- Some terms to remember
+			1) redirect URL -> after successful login where the google should sent it back (bookmyshow.com)
+			2) Authorization server URL -> which third party u r depending upon to login (google/ facebook)
+			3) Access token URL -> Once we hit authorization server URL -> will get code -> once we exchange code -> will get access token	
+			4) Client Id and Client Secret -> Unique values we receive when we registering for first time via google
+			5) Scope -> Info google wants to give to bookmyshow
+			6) State -> any random string
+	-OAuthTest.java
+		1) Login to rahulshetty academy using google auntenthication
+		2) After login -> copy the url -> get the code
+		3) pass the code along with client_id, client_secret, redirect_uri, grant_type -> get the accesstoken from json
+		4) pass the accesstoken and verify the response
+		5) given().urlEncodingEnabled(false) -> it will encode any special characters
+	
+	Client Credentials Grant type - Getting twitter comments from twitter id to rahul shetty academy site.		
+		- Code is not needed (no human involvement)
+		- access token URL, client id, client secret, scope
+		- oAuth2.0 Demo Collection -> Go to authorization -> Change Grant Type to check the mandatory fields for respective grant types
+		
+Serialization & Deserialization:
+8) Serialization in Rest Assured: Process of converting java object into Request body(Payload)
+	- POJO Classes - Plain Old Java Object
+		- Declare variables as private and method as public (encapsulation)
+		- Create getter and setter methods to edit the variable declared
+		- setter methods is used to create a request body
+9) DeSerialization in Rest Assured - Process of converting response body back to java object
+	- Create Pojo class
+	- getter methods is used to retrieve a response body
+	
+10) Steps for Serialization and Deserialization - OAuth2.0ResponseJson.docx
+	- JAR libraries required: Jackson Databind, jackson core, jackson annotations, Gson
+	- Create Pojo class (GetCourse.java) -> create private variables -> Alt+shift+s -> Generate getter and setter
+	- For Nested Json -> Create another pojo class -> Courses.java
+	- Change the return type from String to class (ex: private Courses Courses) also in the getter and setter as well
+	- WebAutomation, Api, mobile are nested json for Courses-> three sepearate classes needs to be created (WebAutomation.java, Mobile.java, Api.java)
+	- Change the return type from String to class (ex: private WebAutomation WebAutomation) also in the getter and setter as well
+		- WebAutomation has array of values -> change the retrun type to class to list (ex: private List<WebAutomation> WebAutomation) also in the getter and setter as well
+		- Do the above changes to api and mobile classes as well
+	- Deserialization: OAuthTest.java -> convert the response into java object as pojo (as(GetCourse.class))
+			GetCourse gc = given().queryParam("access_token", accessToken).expect().defaultParser(Parser.JSON)
+				.when().get("https://rahulshettyacademy.com/getCourse.php").as(GetCourse.class);
+			gc.get("key") -> to retrieve the value
+	- Serialization: Create the java object as pojo and convert into json payload (AddPlace.java, Location. java)
+		- Once the pojo class created for request body -> set the values (SearlizeTest.java)
+		- Pass the object of class AddPlace (request body pojo) into body
+			Response res = given().log().all().queryParam("key", "qaclick123")
+							.body(ap)
+							.when().post("maps/api/place/add/json")
+							.then().assertThat().statusCode(200).extract().response();
+
+11) Spec Builders:Builder.docx
+	- Request Spec Builders: SpecBuilderTest.java
+		1) Create RequestSpecBuilder class
+		2) setContentType(ContentType.JSON) -> Headers
+		3) setBaseUri("xxx") -> Endpoint
+		4) addQueryParam("Key", "value") -> Queryparam
+		5) build() -> To build the spec builder (class will change to RequestSpecification to assign the obj)
+		6) pass the RequestSpecBuilder using spec() -> given.spec(req)	
+	- Response Spec Builders: SpecBuilderTest.java
+		1) Create ResponseSpecBuilder class
+		2) expectStatusCode(200) -> verifying status code
+		3) expectContentType(ContentType.JSON) -> verifying Headers
+		4) build() -> To build the spec builder class will change to ResponseSpecification to assign the obj)
+		5) pass the RequestSpecBuilder using spec() -> then.spec(resSpec)
+		
+12) ECom
+	- Go to rahulshettyacademy.com -> Register a user (id:DeaDshot@test.com; pwd: Testing@123)
+	- Inspect a element -> Go to network -> find the API Contracts
+	- Injecting+JWT+Session+token+into+API+Calls+using+Postman.docs -> Payload and other api contracts are available here
+	- Create a collection for ECom
+		- Login -> Get the api contracts (URI Payload and HTTP Method) from Network -> Hit the request -> Login Successfully
+		- Create Product -> Get the api contracts from word document 
+			- Pass the body as "form-data" -> Copy paste from doc and give bulk edit in postman -> automatically aligned as key & value
+			- Pass the user id from Login and paste for productAddedBy key
+			- Add the Image from local for productImage Key
+			- Pass the token from login -> go to Headers -> create Authorization key and pass the value
+			- Hit the request -> Product Added Successfully
+		- Create Order
+			- Create a order manually to get the api contracts from network
+			- Pass the productId from Create Product and paste in Create Order Json
+			- Pass the token from login -> go to Headers -> create Authorization key and pass the value
+			- Hit the request -> Order Placed Successfully
+		- View Order Details
+			- View the created order manually to get the api contracts from network
+			- Pass the order id from Create Order as query param
+			- Hit the request -> Orders fetched for customer Successfully
+		- Delete Product
+			- Get the api contracts from word document
+			- Pass the product id from Create Product as path param
+			- Hit the request -> Product Deleted Successfully
+		- Delete Order	
+			- Delete the created order manually to get the api contracts from network
+			- Pass the order id from Create Order as path param
+			- Hit the request -> Orders Deleted Successfully
+	- ECommerceAPITest.java (automated all the above scenarios)
+		- Create Base Request Specification -> to pass URI, Headers, Authorization (if needed)
+		- Create Sub Request Specification 
+			- call Request Specification in spec -> given().log().all().spec("object of bese req")
+			- call the json in body -> body()
+				- Create a pojo class if json body (or) 
+				- call queryParam -> queryParam() (or)
+				- call pathParam -> pathParam() (or)
+				- call param -> param() [if the body is in form-data format)s		
+		- Validate the response
+			- call the when() with the sub request specification object
+			- call the http methods - Post/Delete/Get
+			- validate the status code -> asssertThat().statusCode();
+			- extract the response -> extract().response();
+			- Store it as string -> .asString(); (or)
+				- pass the string to Json -> Validate the response using AssertEquals
+			- Store it as Response Pojo Class -> as(ResponsePojo.Class)
+				- Create the response pojo class for response payload
+				- Pass the classname
+				- get the values from the pojo class -> validate the response
+	- Complete the End to End Flow (Login, Create Product, Create Order, View Order, Delete Product, Delete Order)
+				
