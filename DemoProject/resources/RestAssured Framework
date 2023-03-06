@@ -1,0 +1,58 @@
+FRAMEWORK: 
+Cucumber - BDD:
+Gherkin - language to write in BDD
+	- Given -> Precondition
+	- When -> Performing an action
+	- Then -> expected result
+	- And -> using two consecutive syntax
+	- But -> for negative scenarios
+
+Tidy Gherkin - Chrome Extension -> convert gherkin to step definition
+
+Steps by Steps implementation -> Refer Framework.png
+	- Create a feature file
+	- Create Step Definition
+	- Create Cucumber Runner Class
+	- Create Pojo class in src/main/java
+	- Make the resusable variables as global variable ins stepDefinition (ex: RequestSpecification res)	
+	- Create TestdataBuild.java in resources packages to create test data using Seralization
+	- Create Utils in resources package to create reusable functions (ex: requestSpecifcation())
+		- extend the Utils class in stepDefinition Class
+		- add a function for logger file in Utils class
+			- PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
+			- .addFilter(RequestLoggingFilter.logRequestTo(log))
+				.addFilter(ResponseLoggingFilter.logResponseTo(log))
+	- Create global properties file for global variables global.properties -> (getGlobalValue(String Key)) method in Utils
+	- Create Data Driven for multiple set of data from feature files using Scenario Outline and Examples
+		- add if (req==null) condition in RequestSpecification method in Utils to avoid the replacing the logger for second data
+	- Create Enum Classes -> special class in java has collection of constants and methods
+		- Create a method for the resource name -> ex: addPlaceAPI("/maps/api/place/add/json"),getPlaceAPI("/maps/api/place/get/json");
+		- Create a constructor with parameter as same as in the method
+		- use .valueOf(resource) method to call the resource and store it in the constructor
+		- Create a getResource() method to retrieve the value stored in the constructor and declare the variable
+		- pass the all the resources name in the enum class
+		- create a if conditions for http methods in definition class
+	- Create a method for taking value from Json in Utils (getJsonPath())
+	- Create a gherkin step for getPlace
+		- get the placeid from the response payload
+		- Call the exisiting class which already has request payload and use it for GET Http method
+		- pass the place id in get request
+		- validate the name in response payload
+	- Create a test case scenario for Delete API in feature file
+	- Create a tags to the scenario in feature -> call the tags u want to run in cucumber runner class (ex: tags="@AddPlace")
+	- Create a Cucumber Hooks in StepDefinition -> To specify pre and post conditions for ur cucumber scenarios
+		- Create a @Before annotation with tag name -> ex: @Before("@DeletePlace")
+			- To run @DeletePlace test case independently - request and response should be available
+			- call the method for addplace, user calls http request and get place for stepdefinitions
+			- Now the DeletePlace can run independently
+	- MAVEN - Run the framework test cases using maven commands
+		- open the cmd prompt in project folder (C:\Users\Rajkamal\Downloads\Automation\GIT Tutorial\REST_API\APIFramework)
+		- mvn test -> to run all the cases in runner class (make sure package name is cucumber.options)
+		- mvn test -Dcucumber.filter.tags="@AddPlace" -> to run	particular feature using tags
+	- Reports - Cucumber Reports
+		- maven-cucumber-reporting - copy and paste it in pom.xml
+		- add plugin to test runner class -> plugin="json:target/jsonReports/cucumber-report.json
+		- mvn test verify
+		- check cucumber-report.json create under jsonReports in target folder
+		- Check the cucumber reports -> targe -> cucumber-html-reports -> overview-features.html
+					
