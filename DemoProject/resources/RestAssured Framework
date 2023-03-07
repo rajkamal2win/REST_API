@@ -82,4 +82,6 @@ Steps by Steps implementation -> Refer Framework.png
 			- Jenkins will show at what time interval the job will be triggered
 			- Click Save -> job will run in scheduled time
 		- To get more details on Maven GIT and Jenkins - Refer Maven_JENKINs_GIT in Appium Project
+		- Excel Driven - To get data from Excel -> Refer ExcelDriven Project
+		- Conversion of HashMap into Json -> Refer excelDriven.java (copied the file from RestAssuredTest Project)
 					
