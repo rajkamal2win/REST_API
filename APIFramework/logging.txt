@@ -12,11 +12,11 @@ Multiparts:		<none>
 Body:
 {
     "accuracy": 50,
-    "name": "DeaDshot Home",
+    "name": "Tony Stark",
     "phone_number": "(+91) 987 654 3210",
-    "address": "221 B Baker Street",
+    "address": "10880 Malibu Point 90265",
     "website": "http://google.com",
-    "language": "Tamil",
+    "language": "French",
     "location": {
         "lat": -38.383494,
         "lng": 33.427362
@@ -27,7 +27,7 @@ Body:
     ]
 }
 HTTP/1.1 200 OK
-Date: Mon, 06 Mar 2023 18:05:42 GMT
+Date: Tue, 07 Mar 2023 09:47:49 GMT
 Server: Apache/2.4.41 (Ubuntu)
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: POST
@@ -40,17 +40,17 @@ Content-Type: application/json;charset=UTF-8
 
 {
     "status": "OK",
-    "place_id": "1e87c181eff3309d7ff4f3ff103766f8",
+    "place_id": "82d2cca5351d4d68628634dda4331a99",
     "scope": "APP",
-    "reference": "7c1e7af6e0801bd2fa6afdb34dadf4547c1e7af6e0801bd2fa6afdb34dadf454",
-    "id": "7c1e7af6e0801bd2fa6afdb34dadf454"
+    "reference": "64a9d2c3bdbd6623506e5ecb5e78e35264a9d2c3bdbd6623506e5ecb5e78e352",
+    "id": "64a9d2c3bdbd6623506e5ecb5e78e352"
 }
 Request method:	GET
-Request URI:	https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id=1e87c181eff3309d7ff4f3ff103766f8
+Request URI:	https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id=82d2cca5351d4d68628634dda4331a99
 Proxy:			<none>
 Request params:	<none>
 Query params:	key=qaclick123
-				place_id=1e87c181eff3309d7ff4f3ff103766f8
+				place_id=82d2cca5351d4d68628634dda4331a99
 Form params:	<none>
 Path params:	<none>
 Headers:		Accept=*/*
@@ -59,13 +59,13 @@ Cookies:		<none>
 Multiparts:		<none>
 Body:			<none>
 HTTP/1.1 200 OK
-Date: Mon, 06 Mar 2023 18:05:43 GMT
+Date: Tue, 07 Mar 2023 09:47:50 GMT
 Server: Apache/2.4.41 (Ubuntu)
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: POST
 Access-Control-Max-Age: 3600
 Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With
-Content-Length: 244
+Content-Length: 248
 Keep-Alive: timeout=5, max=100
 Connection: Keep-Alive
 Content-Type: application/json;charset=UTF-8
@@ -76,12 +76,12 @@ Content-Type: application/json;charset=UTF-8
         "longitude": "33.427362"
     },
     "accuracy": "50",
-    "name": "DeaDshot Home",
+    "name": "Tony Stark",
     "phone_number": "(+91) 987 654 3210",
-    "address": "221 B Baker Street",
+    "address": "10880 Malibu Point 90265",
     "types": "shoe park,shop",
     "website": "http://google.com",
-    "language": "Tamil"
+    "language": "French"
 }
 Request method:	DELETE
 Request URI:	https://rahulshettyacademy.com/maps/api/place/delete/json?key=qaclick123
@@ -96,10 +96,10 @@ Cookies:		<none>
 Multiparts:		<none>
 Body:
 {
-    "place_id": "1e87c181eff3309d7ff4f3ff103766f8"
+    "place_id": "82d2cca5351d4d68628634dda4331a99"
 }
 HTTP/1.1 200 OK
-Date: Mon, 06 Mar 2023 18:05:43 GMT
+Date: Tue, 07 Mar 2023 09:47:51 GMT
 Server: Apache/2.4.41 (Ubuntu)
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: POST

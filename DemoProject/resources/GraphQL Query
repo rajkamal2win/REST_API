@@ -1,0 +1,88 @@
+query
+{
+  character(characterId: 8) {
+    name
+    status
+    species
+    id
+  }
+  location(locationId: 8) {
+    name
+    dimension
+  }
+  episode(episodeId: 8) {
+    air_date
+    id
+    name
+  }
+  characters(filters: {name: "Rahul"}, pagination: {limit: 10, page: 3}) {
+    info {
+      count
+      pages
+    }
+    result {
+      name
+      type
+      gender
+    }
+  }
+  episodes(filters: {name: "GOT", episode: "Red Wedding"}) {
+    info {
+      next
+      prev
+    }
+    result {
+      air_date
+      name
+      episode
+    }
+  }
+}
+---------------------------------------------------------------------------------
+#2 To pass via query variables
+query ($characterId: Int!, $episodeId: Int!) {
+  character(characterId: $characterId) {
+    name
+    status
+  }
+ }
+ 
+ In Query variable:
+ {
+  "characterId": 8,
+}
+---------------------------------------------------------------------------------
+#3 Mutation - To create a data
+mutation {
+  createLocation(location: {name:"Winterfell", type:"House of Stark", dimension: "001"}) 
+  {
+    id
+  }
+  createCharacter(character: {name:"Arya Stark", type:"No One", status: "Alive", species: "Stark", gender: "female", image:"NoOne.jpg",originId:1814,locationId:1814}) 
+  {
+    id
+  }
+  createEpisode(episode: {name:"WINTER COMES FOR HOUSE FREY", air_date:"July 2017", episode:"S07E01"}) 
+  {
+    id
+  }
+  deleteLocations(locationIds:[1816]) {
+    locationsDeleted
+  }
+}
+--------------------------------------------------------------------------------
+#4 Mutation - To pass via query variables
+mutation ($locationName: String!, $characterName: String!, $episodeName: String!) {
+  createLocation(location: {name: $locationName, type: "House of Stark", dimension: "001"}) {
+    id
+  }
+  createCharacter(character: {name: $characterName, type: "No One", status: "Alive", species: "Stark", gender: "female", image: "NoOne.jpg", originId: 1814, locationId: 1814}) {
+    id
+  }
+  createEpisode(episode: {name: $episodeName, air_date: "July 2017", episode: "S07E01"}) {
+    id
+  }
+  deleteLocations(locationIds: [1816]) {
+    locationsDeleted
+  }
+}

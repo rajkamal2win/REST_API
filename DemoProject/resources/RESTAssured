@@ -157,4 +157,45 @@ Serialization & Deserialization:
 				- Pass the classname
 				- get the values from the pojo class -> validate the response
 	- Complete the End to End Flow (Login, Create Product, Create Order, View Order, Delete Product, Delete Order)
----------------------------------------------------------------------------------------------------------------------------------------------				
+---------------------------------------------------------------------------------------------------------------------------------------------		
+GraphQL: 
+	- It's a query language and server-side runtime for full filling those queries on ur existing data.
+	- It isn't tied to any database or storage engine and is instead backed by ur existing code and data.
+	- GraphQL Server explorer: https://rahulshettyacademy.com/gq/graphql	
+	- To Write GraphQL queries
+		- Go to GraphQL Server
+		- To get the details of Character
+			- Start with Query
+			- Call the type and pass the parameters as shown in Schema (ex: character(characterId: Int!)) '!' symbol denotes it's a mandatory field
+			- call the fields u want to call under the type
+			- Run the query
+			- If we have multiple arguments pass the values using {} ex:  characters(filters: {name: "Rahul"}, pagination: {limit: 10, page: 3})
+			- If we have type as an argument create another type and pass the values 
+			- Refer GraphQl query file
+			- To pass the variable via query variable
+			 	- assign the variable and value in query variables
+			 	- pass the variable in query section and wherever it is used ex: query ($characterId: Int!, $episodeId: Int!) {
+			 	- Refer Graph QL query file #2
+	- To test it in POSTMAN
+		- Inspect Element -> Network -> Run the query -> you'll see api collections
+		- Create a collection -> create a request -> get the endpoint url and http method from Network
+		- Go to Body -> Select GraphQL -> copy the query and query variable -> Send
+		- Validate the response
+	- GraphQL Mutations - To create a data in GraphQL
+		- Start with Mutation
+		- To create a location
+			- call the type and pass the parameters and values as shown in schema (ex: createLocation(location: {name:"Winterfell", type:"House of Stark", dimension: "001"}))				 	
+			- return the fields under the type
+			- Run the query -> get the Id -> pass it in query variable to check whether it is created
+			- Refer Graph QL query file #3
+			- To pass the variable via query variable - Refer Refer Graph QL query file #4
+	- Automate GraphQl in Rest Assured -> GraphQlScript.java
+		- Pass the resource, http methods and header
+		- To get the json body
+			- Run the query
+			- Inspect Element -> Network -> Payload -> view Source -> Copy
+			- Paste in the body
+		- Create a variable and pass it in json if u want to pass during runtime
+		- validate the response
+		- Follow the above steps for Mutation as well 	
+				

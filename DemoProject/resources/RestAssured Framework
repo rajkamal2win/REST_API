@@ -54,5 +54,32 @@ Steps by Steps implementation -> Refer Framework.png
 		- add plugin to test runner class -> plugin="json:target/jsonReports/cucumber-report.json
 		- mvn test verify
 		- check cucumber-report.json create under jsonReports in target folder
-		- Check the cucumber reports -> targe -> cucumber-html-reports -> overview-features.html
+		- Check the cucumber reports -> target -> cucumber-html-reports -> overview-features.html
+	- Integrate with CI tool - Jenkins
+		- Download jenkins.war file
+		- cmd -> cd <Jenkins.War file path>
+		- Jenkins is the server -> To start the server -> java -jar jenkins.war -httpPort=8080
+		- Once the server is running -> Open Browser -> http://localhost:8080/
+		- In http://localhost:8080/
+			- New Item -> Give Name -> Freestyle Project -> Ok
+			- Advanced -> use custom workspace -> path of ur local project
+			- Add Build Step -> Invoke top-level maven targets -> test verify -Dcucumber.filter.tags="@AddPlace" -> Save (to add goals)
+			- Build Now
+			- Open the build -> Console Output (to see execution status)
+		- Parameterization in Jenkins
+			- Click on Project -> Configure
+			- Check "This project is parameterized" checkbox
+			- Add Parameter -> Choice Parameter
+			- Give Name as tag and Choices as AddPlace DeletePlace Regression (one by one like a list)
+			- From Goals -> test verify -Dcucumber.filter.tags="@"$tag"" -> Save
+			- click Build with Parameters
+			- Runtime profile option will be available to choose
+			- Choose the parameter and Build
+		- To see Reports: To Click project -> Workspace -> target
+		- Scheduling the Job: (ref: https://www.cloudbees.com/blog/how-to-schedule-a-jenkins-job)
+			- Click on Project -> Configure
+			- Build Triggers -> Build periodically -> Give the time -> Click tab
+			- Jenkins will show at what time interval the job will be triggered
+			- Click Save -> job will run in scheduled time
+		- To get more details on Maven GIT and Jenkins - Refer Maven_JENKINs_GIT in Appium Project
 					
